@@ -11,7 +11,7 @@ function userJoin(id, username, room) {
 
 // Get current user
 function getCurrentUser(id) {
-  return users.find(user => user.id === id);
+  return users.find(user => user.id == id);
 }
 
 // User leaves chat

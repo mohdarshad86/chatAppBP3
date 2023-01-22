@@ -2,6 +2,7 @@ const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
+// const {getCurrentUser} = require("./utils/users");
 
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -21,7 +22,7 @@ socket.on('roomUsers', ({ room, users }) => {
 
 // Message from server
 socket.on('message', (message) => {
-  console.log(message);
+  // console.log(message);
   outputMessage(message);
 
   // Scroll down
@@ -53,10 +54,17 @@ chatForm.addEventListener('submit', (e) => {
 function outputMessage(message) {
   const div = document.createElement('div');
   div.classList.add('message');
+  if (username == message.username) {
+    div.classList.add('my-message');
+  }
+  if (message.username=='Botsy') {
+    div.classList.add('bot-message');
+  }
   const p = document.createElement('p');
   p.classList.add('meta');
   p.innerText = message.username;
   p.innerHTML += `<span>${message.time}</span>`;
+
   div.appendChild(p);
   const para = document.createElement('p');
   para.classList.add('text');
@@ -75,6 +83,9 @@ function outputUsers(users) {
   userList.innerHTML = '';
   users.forEach((user) => {
     const li = document.createElement('li');
+    if (username == user.username) {
+      li.classList.add('my-user');
+    }
     li.innerText = user.username;
     userList.appendChild(li);
   });
